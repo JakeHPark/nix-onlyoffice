@@ -31,7 +31,7 @@ Then apply the overlay:
 
   ./configuration.nix
 
-  nix-onlyoffice.nixosModules.onlyoffice
+  inputs.nix-onlyoffice.nixosModules.onlyoffice
   # ...
 }
 ```
