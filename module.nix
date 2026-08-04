@@ -40,6 +40,7 @@ in
       plugins = lib.mkOption {
         type = lib.types.listOf lib.types.package;
         default = with pkgs.gst_all_1; [
+          gstreamer
           gst-plugins-base
           gst-plugins-good
           gst-plugins-bad
@@ -49,6 +50,7 @@ in
         ];
         defaultText = lib.literalExpression ''
           with pkgs.gst_all_1; [
+            gstreamer
             gst-plugins-base
             gst-plugins-good
             gst-plugins-bad
@@ -57,7 +59,7 @@ in
             gst-vaapi
           ]
         '';
-        description = "GStreamer plugins exposed to OnlyOffice.";
+        description = "GStreamer plugins exposed globally.";
       };
     };
 
@@ -91,7 +93,7 @@ in
       }
 
       (lib.mkIf cfg.gstreamer.enable {
-        environment.systemPackages = cfg.gstreamer.plugins ++ [ pkgs.gst_all_1.gstreamer ];
+        environment.systemPackages = cfg.gstreamer.plugins;
 
         # OnlyOffice needs this to play videos.
         # See: http://wiki.nixos.org/wiki/GStreamer#Troubleshooting

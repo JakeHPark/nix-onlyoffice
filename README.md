@@ -61,6 +61,7 @@ programs.onlyoffice = {
     enable = true;
 
     plugins = with pkgs.gst_all_1; [
+      gstreamer
       gst-plugins-base
       gst-plugins-good
       gst-plugins-bad
