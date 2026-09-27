@@ -15,6 +15,20 @@ let
       cfg.copyFonts.fontPackages;
 
   fontHash = builtins.hashString "sha256" (lib.concatStringsSep "\n" (map toString fontPackages));
+
+  mimeTypes = [
+    "application/msword"
+    "application/rtf"
+    "application/vnd.ms-excel"
+    "application/vnd.ms-powerpoint"
+    "application/vnd.oasis.opendocument.presentation"
+    "application/vnd.oasis.opendocument.spreadsheet"
+    "application/vnd.oasis.opendocument.text"
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    "text/csv"
+  ];
 in
 {
   options.programs.onlyoffice = {
@@ -28,6 +42,12 @@ in
       description = ''
         OnlyOffice package to install, or null to not install any package.
       '';
+    };
+
+    defaultApplications = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to set OnlyOffice as the default application for supported office document MIME types.";
     };
 
     gstreamer = {
@@ -91,6 +111,11 @@ in
       {
         environment.systemPackages = lib.optional (cfg.package != null) cfg.package;
       }
+
+      (lib.mkIf cfg.defaultApplications {
+        xdg.mime.defaultApplications =
+          lib.genAttrs mimeTypes (_: lib.mkDefault [ "onlyoffice-desktopeditors.desktop" ]);
+      })
 
       (lib.mkIf cfg.gstreamer.enable {
         environment.systemPackages = cfg.gstreamer.plugins;

@@ -56,6 +56,9 @@ programs.onlyoffice = {
   # This can be set to `null` to not install any package.
   package = pkgs.onlyoffice-desktopeditors;
 
+  # Whether to set OnlyOffice as the default application for supported office document MIME types.
+  defaultApplications = true;
+
   gstreamer = {
     # Whether to install GStreamer plugins and expose `GST_PLUGIN_SYSTEM_PATH_1_0`.
     enable = true;
