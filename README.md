@@ -89,12 +89,15 @@ programs.onlyoffice = {
 
 In particular, the GStreamer plugins are [necessary](http://wiki.nixos.org/wiki/GStreamer#Troubleshooting) for integrated video playing, and the font copying is [necessary](https://github.com/NixOS/nixpkgs/issues/373521#issuecomment-2588283507) for OnlyOffice to recognise them at all.
 
-If you have [Plasma Manager](https://github.com/nix-community/plasma-manager), you can also conveniently set:
+If you have [Nix Home Utils](https://github.com/JakeHPark/nix-home-utils), you can also conveniently set:
 
 ```nix
-programs.plasma.configFile."onlyoffice/DesktopEditors.conf".General = {
-  UITheme = "theme-night";
-  maximized = true;
-  savePath = "${config.home.homeDirectory}/Desktop";
-};
+{
+  nix-home-utils.onlyOffice.settings = {
+    # For example:
+    General.UITheme = "theme-night";
+    General.maximized = true;
+    General.savePath = "${config.home.homeDirectory}/Desktop";
+  };
+}
 ```
